@@ -70,18 +70,11 @@ python3 scripts/fetch_dams.py
 
 This downloads the latest KSEB and Irrigation PDFs from KSDMA, reads them with `pdftotext` (poppler) and writes `data/bulletin.js`. KSDMA updates the tables daily (usually around 11 AM), so running it hourly is plenty. If `data/bulletin.js` is missing, the site falls back to the sample values in `js/status.js` and says so on the page.
 
-**Automatic hourly refresh (macOS).** A LaunchAgent runs the script every hour and once at login. Its definition is `scripts/com.keralafloodwatch.fetchdams.plist`, installed at `~/Library/LaunchAgents/`, and each run is logged to `logs/fetch_dams.log`. If a fetch fails, the previous `data/bulletin.js` is kept.
+**Automatic hourly refresh.** The GitHub Action described under "Published site" does this. `scripts/com.keralafloodwatch.fetchdams.plist` is an optional macOS LaunchAgent for running the site from your own Mac instead. It is not installed; to use it, fix the paths inside it, copy it to `~/Library/LaunchAgents/` and run:
 
 ```bash
-# run it right now
-launchctl kickstart gui/$(id -u)/com.keralafloodwatch.fetchdams
-# stop it
-launchctl bootout gui/$(id -u)/com.keralafloodwatch.fetchdams
-# start it again
 launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.keralafloodwatch.fetchdams.plist
 ```
-
-If you move this project folder, update the paths in the plist and reinstall it.
 
 **Last available data.** Nothing is ever blanked out because a source is quiet or down:
 - A dam missing from today's tables keeps its previous reading in `data/bulletin.js`, marked with that reading's time.
