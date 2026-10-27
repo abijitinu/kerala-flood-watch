@@ -161,5 +161,5 @@
     try { Object.keys(sessionStorage).filter(k => k.startsWith("https://")).forEach(k => sessionStorage.removeItem(k)); } catch (e) { /* storage unavailable */ }
   }
 
-  window.Live = { clearCache, discharge, dischargeMany, classifyFlow, climFor, flowOn, rainfall, elevation, geocode, distanceKm, isoDate, PAST_DAYS, AHEAD_DAYS };
+  window.Live = { clearCache, discharge, dischargeMany, classifyFlow, climFor, flowOn, rainfall, elevation, geocode, distanceKm, isoDate, PAST_DAYS, AHEAD_DAYS, CLIM_YEARS };
 })();

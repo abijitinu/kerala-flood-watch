@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kerala Flood Watch</title>
-  <meta name="description" content="Is my area safe from floods? Choose your town to see the river, dams upstream and downstream, and the forecast along the Periyar and Pamba rivers in Kerala.">
+  <meta name="description" content="Is my area safe from floods? Choose any town or village in Kerala to see its river, the dams upstream and downstream, and the forecast. In English and Malayalam.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Malayalam:wght@400;600;700&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
-  <link rel="stylesheet" href="css/styles.css?v=61">
+  <link rel="stylesheet" href="css/styles.css?v=70">
 </head>
 <body class="is-home">
   <header class="hero">
@@ -20,24 +20,25 @@
           <span class="brand-name">Kerala Flood Watch</span>
         </a>
         <nav class="top-links" aria-label="Site">
-          <a href="#guide" class="top-link">Guide</a>
-          <a href="tel:112" class="call" aria-label="Call emergency 112"><span aria-hidden="true">📞</span> <span class="call-text">Emergency</span> <b>112</b></a>
+          <div class="lang-switch" role="group" aria-label="Choose language" data-i18n-attr="aria-label"><button type="button" data-lang="en" lang="en" aria-pressed="true" aria-label="English" title="English">EN</button><button type="button" data-lang="ml" lang="ml" aria-pressed="false" aria-label="മലയാളം" title="മലയാളം">മ</button></div>
+          <a href="#guide" class="top-link" data-i18n>Guide</a>
+          <a href="tel:112" class="call" aria-label="Call emergency 112" data-i18n-attr="aria-label"><span aria-hidden="true">📞</span> <span class="call-text" data-i18n>Emergency</span> <b>112</b></a>
         </nav>
       </div>
 
       <div class="hero-body">
-        <h1>Is my area safe from floods?</h1>
-        <p class="hero-lead">Choose your town or village to see the river near you, the dams above and below it, and how the water is changing day by day.</p>
+        <h1 data-i18n>Is my area safe from floods?</h1>
+        <p class="hero-lead" data-i18n>Choose your town or village to see the river near you, the dams above and below it, and how the water is changing day by day.</p>
         <form id="riskForm" class="search" autocomplete="off" role="search">
-          <label for="riskInput" class="sr-only">Your town or village</label>
+          <label for="riskInput" class="sr-only" data-i18n>Your town or village</label>
           <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          <input id="riskInput" list="placeList" type="text" placeholder="Your town or village, e.g. Aluva" required>
+          <input id="riskInput" list="placeList" type="text" placeholder="Town or village name" data-i18n-attr="placeholder" required>
           <datalist id="placeList"></datalist>
-          <button type="submit" class="btn primary">Check</button>
+          <button type="submit" class="btn primary" data-i18n>Check</button>
         </form>
         <div class="quick">
-          <button type="button" id="geoBtn" class="chip chip-geo">📍 Use where I am now</button>
-          <span id="quickPlaces"></span>
+          <button type="button" id="geoBtn" class="chip chip-geo" data-i18n>📍 Use where I am now</button>
+          <span id="quickPlaces" aria-live="polite"></span>
         </div>
       </div>
     </div>
@@ -54,25 +55,27 @@
         <div class="dh-actions">
           <span id="dataTime" class="data-time" aria-live="polite"></span>
           <a id="omBtn" class="om-link" href="#">Organic Maps</a>
-          <button type="button" class="btn-ghost" id="shareBtn">Share</button>
-          <button type="button" id="refreshBtn" class="refresh-btn" title="Get the latest dam levels and river forecasts">
+          <button type="button" class="btn-ghost" id="shareBtn" data-i18n>Share</button>
+          <button type="button" id="refreshBtn" class="refresh-btn" title="Get the latest dam levels and river forecasts" data-i18n-attr="title">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v5h-5"/></svg>
-            <span>Refresh</span>
+            <span data-i18n>Refresh</span>
           </button>
         </div>
       </div>
 
-      <div class="cal" role="group" aria-label="Choose a date">
-        <button type="button" class="cal-step" data-step="-1" aria-label="Previous day">‹</button>
+      <div class="cal" role="group" aria-label="Choose a date" data-i18n-attr="aria-label">
+        <button type="button" class="cal-step" data-step="-1" aria-label="Previous day" data-i18n-attr="aria-label">‹</button>
         <div class="cal-strip" id="calStrip"></div>
-        <button type="button" class="cal-step" data-step="1" aria-label="Next day">›</button>
-        <button type="button" class="btn-ghost cal-today" id="calToday">Today</button>
-        <label class="cal-pick"><span class="sr-only">Pick a date</span><input type="date" id="calInput"></label>
+        <button type="button" class="cal-step" data-step="1" aria-label="Next day" data-i18n-attr="aria-label">›</button>
+        <button type="button" class="btn-ghost cal-today" id="calToday" data-i18n>Today</button>
+        <label class="cal-pick"><span class="sr-only" data-i18n>Pick a date</span><input type="date" id="calInput"></label>
       </div>
+
+      <section class="official" id="official" aria-live="polite"></section>
 
       <div class="widgets">
         <article class="w w-status" id="wStatus"></article>
-        <article class="w w-map"><div class="w-title">River map</div><div class="map-box"><div id="riverMap" role="region" aria-label="Map of the rivers around the chosen place"></div></div></article>
+        <article class="w w-map"><div class="w-title" data-i18n>River map</div><div class="map-box"><div id="riverMap" role="region" aria-label="Map of the rivers around the chosen place" data-i18n-attr="aria-label"></div></div></article>
         <article class="w w-todo" id="wTodo"></article>
         <article class="w w-up" id="wUp"></article>
         <article class="w w-down" id="wDown"></article>
@@ -84,48 +87,58 @@
 
     <!-- Guide: what the colours mean and how to be ready -->
     <section id="guide" class="section" hidden>
-      <h2>Guide</h2>
+      <h2 data-i18n>Guide</h2>
       <div class="guide-grid">
         <div class="guide-col">
-          <h3>What the colours mean</h3>
+          <h3 data-i18n>What the colours mean</h3>
+          <p class="lead" data-i18n>These are the four colours of the India Meteorological Department (IMD). Kerala's official alerts use the same colours.</p>
           <div class="legend-grid">
-            <div class="lg safe"><span class="dot"></span><b>Safe</b><span>River is at its usual level. Nothing to do.</span></div>
-            <div class="lg alert"><span class="dot"></span><b>Be alert</b><span>More water than usual. Keep watching for news.</span></div>
-            <div class="lg ready"><span class="dot"></span><b>Get ready</b><span>Water is high. Pack your bag and plan where to go.</span></div>
-            <div class="lg danger"><span class="dot"></span><b>Danger</b><span>Water may enter homes. Move to safety when told.</span></div>
+            <div class="lg safe"><span class="dot"></span><b data-i18n>Green · No warning</b><span data-i18n>No action needed.</span></div>
+            <div class="lg alert"><span class="dot"></span><b data-i18n>Yellow · Be updated</b><span data-i18n>Keep following the news and official updates.</span></div>
+            <div class="lg ready"><span class="dot"></span><b data-i18n>Orange · Be prepared</b><span data-i18n>Keep your emergency bag ready and know where you would go.</span></div>
+            <div class="lg danger"><span class="dot"></span><b data-i18n>Red · Take action</b><span data-i18n>Follow official instructions and move to safety when told.</span></div>
           </div>
-          <h4 class="sub-h">Dam warnings</h4>
+          <p class="small muted" data-i18n>A place's colour on this site is our estimate from river and rain data, unless an official alert is in force there. Official alerts always come first.</p>
+          <h4 class="sub-h" data-i18n>Dam alerts (KSEB and Irrigation Department)</h4>
           <div class="legend-grid">
-            <div class="lg dam-blue"><span class="dot"></span><b>Blue warning</b><span>The dam is filling up. No need to worry yet.</span></div>
-            <div class="lg dam-orange"><span class="dot"></span><b>Orange warning</b><span>The dam is nearly full. Water may be let out soon. People by the river should get ready.</span></div>
-            <div class="lg dam-red"><span class="dot"></span><b>Red warning</b><span>Water will be let out. Follow instructions to move away from the river.</span></div>
+            <div class="lg dam-blue"><span class="dot"></span><b data-i18n>Blue alert</b><span data-i18n>The dam is filling up. No need to worry yet.</span></div>
+            <div class="lg dam-orange"><span class="dot"></span><b data-i18n>Orange alert</b><span data-i18n>The dam is nearly full. Water may be let out soon. People by the river should be prepared.</span></div>
+            <div class="lg dam-red"><span class="dot"></span><b data-i18n>Red alert</b><span data-i18n>Water will be let out. Follow instructions to move away from the river.</span></div>
           </div>
+          <h4 class="sub-h" data-i18n>Where official warnings are published</h4>
+          <ul class="official-links">
+            <li><a href="https://sachet.ndma.gov.in" target="_blank" rel="noopener">SACHET (NDMA)</a> <span data-i18n>Every official alert for Kerala from IMD and KSDMA, in English and Malayalam.</span></li>
+            <li><a href="https://sdma.kerala.gov.in" target="_blank" rel="noopener">KSDMA</a> <span data-i18n>Kerala State Disaster Management Authority: warnings, dam levels and advice.</span></li>
+            <li><a href="https://mausam.imd.gov.in/thiruvananthapuram/" target="_blank" rel="noopener">IMD Thiruvananthapuram</a> <span data-i18n>District-wise rain warnings for the next five days.</span></li>
+          </ul>
+          <p class="small" data-i18n>District Collectors announce holidays, evacuations and dam releases on their district websites:</p>
+          <div class="collector-links" id="collectorLinks"></div>
         </div>
         <div class="guide-col">
-          <h3>Keep these in one bag</h3>
-          <p class="lead">If you live near a river, keep a bag packed during the monsoon so you can leave quickly.</p>
+          <h3 data-i18n>Keep these in one bag</h3>
+          <p class="lead" data-i18n>If you live near a river, keep a bag packed during the monsoon so you can leave quickly.</p>
           <div class="kit">
-            <div><span>💧</span>Drinking water</div>
-            <div><span>🍞</span>Dry food</div>
-            <div><span>💊</span>Medicines</div>
-            <div><span>📄</span>ID &amp; papers in a plastic cover</div>
-            <div><span>🔦</span>Torch</div>
-            <div><span>🔋</span>Charged phone &amp; power bank</div>
-            <div><span>👕</span>Spare clothes</div>
-            <div><span>🧴</span>Soap &amp; sanitiser</div>
+            <div><span>💧</span><span data-i18n>Drinking water</span></div>
+            <div><span>🍞</span><span data-i18n>Dry food</span></div>
+            <div><span>💊</span><span data-i18n>Medicines</span></div>
+            <div><span>📄</span><span data-i18n>ID &amp; papers in a plastic cover</span></div>
+            <div><span>🔦</span><span data-i18n>Torch</span></div>
+            <div><span>🔋</span><span data-i18n>Charged phone &amp; power bank</span></div>
+            <div><span>👕</span><span data-i18n>Spare clothes</span></div>
+            <div><span>🧴</span><span data-i18n>Soap &amp; sanitiser</span></div>
           </div>
           <div class="dos">
-            <div class="do"><h3>✅ Do</h3><ul>
-              <li>Move old people, children and animals early</li>
-              <li>Switch off electricity before leaving</li>
-              <li>Listen to official announcements</li>
-              <li>Go to the nearest relief camp if asked</li>
+            <div class="do"><h3 data-i18n>✅ Do</h3><ul>
+              <li data-i18n>Move old people, children and animals early</li>
+              <li data-i18n>Switch off electricity before leaving</li>
+              <li data-i18n>Listen to official announcements</li>
+              <li data-i18n>Go to the nearest relief camp if asked</li>
             </ul></div>
-            <div class="dont"><h3>❌ Don't</h3><ul>
-              <li>Walk or drive through flowing water</li>
-              <li>Go to the river to watch or take photos</li>
-              <li>Believe or forward unverified messages</li>
-              <li>Wait until water enters your house</li>
+            <div class="dont"><h3 data-i18n>❌ Don't</h3><ul>
+              <li data-i18n>Walk or drive through flowing water</li>
+              <li data-i18n>Go to the river to watch or take photos</li>
+              <li data-i18n>Believe or forward unverified messages</li>
+              <li data-i18n>Wait until water enters your house</li>
             </ul></div>
           </div>
         </div>
@@ -134,32 +147,37 @@
 
     <footer class="foot">
       <div class="helplines">
-        <a href="tel:112"><b>112</b><span>Emergency, police, rescue</span></a>
-        <a href="tel:1077"><b>1077</b><span>District disaster control room</span></a>
-        <a href="tel:1070"><b>1070</b><span>State disaster control room</span></a>
+        <a href="tel:112"><b>112</b><span data-i18n>Emergency, police, rescue</span></a>
+        <a href="tel:1077"><b>1077</b><span data-i18n>District disaster control room</span></a>
+        <a href="tel:1070"><b>1070</b><span data-i18n>State disaster control room</span></a>
       </div>
-      <p><strong>Always follow instructions from the District Collector and local officials.</strong> This website helps you understand the situation, but it does not replace official orders.</p>
-      <p class="small">Official updates: <a href="https://sdma.kerala.gov.in" target="_blank" rel="noopener">Kerala State Disaster Management Authority</a> · <a href="https://ffs.india-water.gov.in" target="_blank" rel="noopener">Central Water Commission</a> · <a href="https://www.kseb.in" target="_blank" rel="noopener">KSEB (dams)</a> · <a href="https://mausam.imd.gov.in" target="_blank" rel="noopener">IMD (weather)</a>.
+      <p data-i18n="foot.official"><strong>Always follow instructions from the District Collector and local officials.</strong> This website helps you understand the situation, but it does not replace official orders.</p>
+      <p class="small" data-i18n="foot.sources">Official updates: <a href="https://sdma.kerala.gov.in" target="_blank" rel="noopener">Kerala State Disaster Management Authority</a> · <a href="https://ffs.india-water.gov.in" target="_blank" rel="noopener">Central Water Commission</a> · <a href="https://www.kseb.in" target="_blank" rel="noopener">KSEB (dams)</a> · <a href="https://mausam.imd.gov.in" target="_blank" rel="noopener">IMD (weather)</a>.
         River and rain data from <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a>. Rivers and map © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors.</p>
     </footer>
   </main>
 
-  <script src="data/rivers.js?v=61"></script>
-  <script src="data/dams.js?v=61"></script>
-  <script src="data/sites.js?v=61"></script>
-  <script src="data/places.js?v=61"></script>
+  <script src="data/rivers.js?v=70"></script>
+  <script src="data/dams.js?v=70"></script>
+  <script src="data/sites.js?v=70"></script>
+  <script src="data/places.js?v=70"></script>
   <script>
     // Always load the newest published dam data and archive, not a cached copy.
     document.write('<script src="data/bulletin.js?t=' + Date.now() + '"><\/script>');
     document.write('<script src="data/history.js?t=' + Date.now() + '"><\/script>');
   </script>
-  <script src="js/status.js?v=61"></script>
-  <script src="js/live.js?v=61"></script>
-  <script src="js/illustrations.js?v=61"></script>
+  <script src="data/districts.js?v=70"></script>
+  <script>
+    document.write('<script src="data/alerts.js?t=' + Date.now() + '"><\/script>');
+  </script>
+  <script src="js/i18n.js?v=70"></script>
+  <script src="js/status.js?v=70"></script>
+  <script src="js/live.js?v=70"></script>
+  <script src="js/illustrations.js?v=70"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
-  <script src="data/water.js?v=61"></script>
-  <script src="js/network.js?v=61"></script>
-  <script src="js/map.js?v=61"></script>
-  <script src="js/app.js?v=61"></script>
+  <script src="data/water.js?v=70"></script>
+  <script src="js/network.js?v=70"></script>
+  <script src="js/map.js?v=70"></script>
+  <script src="js/app.js?v=70"></script>
 </body>
 </html>

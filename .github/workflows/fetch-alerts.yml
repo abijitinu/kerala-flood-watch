@@ -1,0 +1,35 @@
+# Every 15 minutes: fetch Kerala's active official alerts (IMD / KSDMA, via NDMA's SACHET
+# portal) and commit data/alerts.js when they change. The commit redeploys GitHub Pages.
+name: Fetch official alerts
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-data
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch alerts
+        run: python3 scripts/fetch_alerts.py
+      - name: Commit if changed
+        run: |
+          git config user.name "alert-data-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/alerts.js
+          # When only the fetch time changed, commit at most once an hour (so the site can
+          # still show that the alerts were checked recently).
+          prev=$(git show HEAD:data/alerts.js 2>/dev/null | grep -o '"fetchedAt": "[^"]*"' | cut -d'"' -f4)
+          age=$(( $(date +%s) - $(date -d "${prev:-1970-01-01}" +%s) ))
+          if git diff --cached -I '"fetchedAt"' --quiet && [ "$age" -lt 3600 ]; then echo "No change"; exit 0; fi
+          git commit -m "Update official alerts $(TZ=Asia/Kolkata date '+%Y-%m-%d %H:%M IST')"
+          git pull --rebase -q && git push

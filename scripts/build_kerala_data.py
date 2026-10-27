@@ -13,6 +13,8 @@ Inputs (JSON files in the folder given as the first argument):
   kerala_sites.json   [{river, km, lat, lon}...]   river-flow points: the GloFAS model cell
                       with the most flow near points every 20 km along each river
   kerala_water.json   [[outer ring, ...holes]...]  lakes, lagoons, reservoirs, river banks
+  kerala_names_ml.json [[osm type, kind, name, name:ml, name:en]...]  Malayalam names of places,
+                      rivers and lakes (Overpass: [...]["name:ml"] in Kerala), optional
 
 Outputs: data/rivers.js, data/dams.js, data/places.js, data/sites.js, data/water.js
 """
@@ -55,7 +57,7 @@ def nearest_river(lat, lon, limit_km):
 
 def nearest_place(lat, lon, kinds="ctv", limit_km=12):
     best = None
-    for name, plat, plon, kind in places:
+    for name, plat, plon, kind, *_ in places:
         if kind not in kinds:
             continue
         d = km((plat, plon), (lat, lon))
@@ -64,8 +66,25 @@ def nearest_place(lat, lon, kinds="ctv", limit_km=12):
     return best[0] if best and best[1] <= limit_km else None
 
 
+# Malayalam names from OpenStreetMap: for each English name, the Malayalam name most often given.
+ml_names = {"place": {}, "river": {}}
+if os.path.exists(os.path.join(SRC, "kerala_names_ml.json")):
+    from collections import Counter
+    votes = {"place": {}, "river": {}}
+    for osm_type, kind, name, ml, en in load("kerala_names_ml"):
+        group = "river" if kind == "river" else "place" if osm_type == "node" else None
+        for n in {name, en} - {None, ""}:
+            if group and ml and n != ml:
+                votes[group].setdefault(n.strip().lower(), Counter())[ml.strip()] += 1
+    ml_names = {g: {n: c.most_common(1)[0][0] for n, c in v.items()} for g, v in votes.items()}
+    for r in rivers.values():
+        if r["name"].strip().lower() in ml_names["river"]:
+            r["ml"] = ml_names["river"][r["name"].strip().lower()]
+    places = [p[:4] + ([ml_names["place"][p[0].strip().lower()]] if p[0].strip().lower() in ml_names["place"] else []) for p in places]
+    print(f"  Malayalam names: {sum('ml' in r for r in rivers.values())} of {len(rivers)} rivers, {sum(len(p) > 4 for p in places)} of {len(places)} places")
+
 write("rivers", "RIVER_LINES", rivers, "Every named river in Kerala from OpenStreetMap (© OpenStreetMap contributors, ODbL), source → mouth, simplified to ~150 m.")
-write("places", "KERALA_PLACES", places, "Cities (c), towns (t) and villages (v) in Kerala from OpenStreetMap (© OpenStreetMap contributors, ODbL): [name, lat, lon, kind].")
+write("places", "KERALA_PLACES", places, "Cities (c), towns (t) and villages (v) in Kerala from OpenStreetMap (© OpenStreetMap contributors, ODbL): [name, lat, lon, kind, Malayalam name if known].")
 
 dams = load("kerala_dams")
 official = {}

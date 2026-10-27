@@ -18,6 +18,7 @@
     "<path class='" + cls + " wave-move' style='--len:" + len + "px' d='" + wavePath(x0, x1, y, bottom, amp, len) + "'/>";
 
   /** Two glasses: how much water usually flows vs today. */
+  const T = s => window.I18N ? window.I18N.t(s) : s;
   function glasses(ratio) {
     const usual = 0.38, today = Math.max(0.06, usual * ratio), spill = today > 1;
     const glass = (x, f, label, cls) => {
@@ -28,8 +29,8 @@
         "<path class='glass' d='M" + (x + 4) + " " + gTop + " L" + (x + 10) + " " + gBot + " H" + (x + 50) + " L" + (x + 56) + " " + gTop + "'/>" +
         "<text x='" + (x + 30) + "' y='108' text-anchor='middle'>" + label + "</text>";
     };
-    return "<svg class='glasses' viewBox='0 0 170 114' role='img' aria-label='Usual amount of water compared with today'>" +
-      glass(8, usual, "Usual", "") + glass(100, today, "Today", "today") +
+    return "<svg class='glasses' viewBox='0 0 170 114' role='img' aria-label='" + T("Usual amount of water compared with today") + "'>" +
+      glass(8, usual, T("Usual"), "") + glass(100, today, T("Today"), "today") +
       (spill ? "<g class='spill'><path d='M154 18 q8 6 6 22' /><circle class='drip' cx='160' cy='44' r='3'/><circle class='drip d2' cx='104' cy='40' r='2.5'/></g>" : "") +
     "</svg>";
   }
@@ -45,7 +46,7 @@
       return "M" + x0.toFixed(1) + " " + y0.toFixed(1) + " A" + r + " " + r + " 0 0 1 " + x1.toFixed(1) + " " + y1.toFixed(1);
     };
     const angle = -90 + (i + 0.5) * 45;
-    return "<svg class='meter " + size + "' viewBox='0 0 160 96' role='img' aria-label='Danger meter: " + status + "'>" +
+    return "<svg class='meter " + size + "' viewBox='0 0 160 96' role='img' aria-label='" + T("Danger meter") + ": " + T({ safe: "No warning", alert: "Be updated", ready: "Be prepared", danger: "Take action" }[status] || "Not sure") + "'>" +
       ZONES.map((z, k) => "<path class='zone " + z + (k === i ? " on" : "") + "' d='" + arc(k / 4 + 0.01, (k + 1) / 4 - 0.01) + "'/>").join("") +
       "<g class='needle' style='--angle:" + angle + "deg'><path d='M" + (cx - 4) + " " + cy + " L" + cx + " " + (cy - r + 12) + " L" + (cx + 4) + " " + cy + "Z'/></g>" +
       "<circle class='hub' cx='" + cx + "' cy='" + cy + "' r='7'/>" +

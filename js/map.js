@@ -9,7 +9,7 @@
 (function () {
   const GRID_STEP = 0.1; // degrees between the cross-hair marks
   const BOUNDS = [[8.15, 74.85], [12.8, 77.45]]; // all of Kerala
-  const RIVER_NAMES = window.RiverNet.NAMES;
+  const T = window.I18N.t;
 
   let map, waterLayer, gridLayer, layers, placeLayer, legend;
 
@@ -33,7 +33,7 @@
     // Other named dams in OpenStreetMap (no official daily reading): small hollow squares.
     const otherIcon = L.divIcon({ className: "", html: "<span class='map-dam other'></span>", iconSize: [9, 9], iconAnchor: [4, 4] });
     L.layerGroup((window.OTHER_DAMS || []).map(([name, lat, lon]) => L.marker([lat, lon], { icon: otherIcon, title: name, keyboard: false })
-      .bindTooltip(name + " · no official reading", { direction: "top", offset: [0, -6], className: "map-tip" }))).addTo(map);
+      .bindTooltip(() => name + T(" · no official reading"), { direction: "top", offset: [0, -6], className: "map-tip" }))).addTo(map);
     layers = L.layerGroup().addTo(map);
     placeLayer = L.layerGroup().addTo(map);
     // Scroll-zoom only after the person clicks the map, so the page still scrolls normally.
@@ -56,7 +56,7 @@
    * dams[], damPopup(d), pointPopup(id), riverPopup(river, id), towns[], focusBasin.
    */
   function render(el, ctx) {
-    if (!window.L) { el.innerHTML = "<p class='error'>The map couldn't load. Please check your internet connection.</p>"; return; }
+    if (!window.L) { el.innerHTML = "<p class='error'>" + T("The map couldn't load. Please check your internet connection.") + "</p>"; return; }
     if (!map) init(el);
     map.invalidateSize();
     layers.clearLayers();
@@ -90,11 +90,11 @@
       if (r.km < 40 && (faded || !ctx.focusBasin)) return;
       const mid = line[Math.floor(line.length * 0.4)];
       L.tooltip({ permanent: true, direction: "center", className: "map-label river-label" + faded, interactive: false })
-        .setLatLng(mid).setContent(RIVER_NAMES[key]).addTo(layers);
+        .setLatLng(mid).setContent(window.I18N.river(key)).addTo(layers);
     });
 
     [["Vembanad Lake", [9.62, 76.37]], ["Ashtamudi Lake", [8.98, 76.58]], ["Arabian Sea", [10.6, 75.6]]].forEach(([name, ll]) =>
-      L.tooltip({ permanent: true, direction: "center", className: "map-label water-label", interactive: false }).setLatLng(ll).setContent(name).addTo(layers));
+      L.tooltip({ permanent: true, direction: "center", className: "map-label water-label", interactive: false }).setLatLng(ll).setContent(T(name)).addTo(layers));
 
     ctx.dams.forEach(d => {
       const loc = window.DAM_LOCATIONS[d.id];
@@ -123,15 +123,16 @@
         // Open on wide screens; a small "Map key" button on phones so it doesn't cover the map.
         if (window.innerWidth > 560) div.open = true;
         L.DomEvent.disableClickPropagation(div);
-        div.innerHTML = "<summary>Map key</summary>" +
-          "<div class='ml-row'><i class='ml-water'></i>Water · thicker river = more water</div>" +
-          "<div class='ml-row'><i class='ml-edge st-alert'></i>Be alert</div><div class='ml-row'><i class='ml-edge st-ready'></i>Get ready</div><div class='ml-row'><i class='ml-edge st-danger'></i>Danger</div>" +
-          "<div class='ml-row'><span class='map-dam alert-none'></span>Dam</div><div class='ml-row'><span class='ml-town'></span>Measuring point</div>" +
-          "<div class='ml-row'><span class='ml-you'></span>Your place</div>";
         return div;
       };
       legend.addTo(map);
     }
+    // Filled on every render so it follows the chosen language.
+    legend.getContainer().innerHTML = "<summary>" + T("Map key") + "</summary>" +
+      "<div class='ml-row'><i class='ml-water'></i>" + T("Water · thicker river = more water") + "</div>" +
+      "<div class='ml-row'><i class='ml-edge st-alert'></i>" + T("Yellow · Be updated") + "</div><div class='ml-row'><i class='ml-edge st-ready'></i>" + T("Orange · Be prepared") + "</div><div class='ml-row'><i class='ml-edge st-danger'></i>" + T("Red · Take action") + "</div>" +
+      "<div class='ml-row'><span class='map-dam alert-none'></span>" + T("Dam") + "</div><div class='ml-row'><span class='ml-town'></span>" + T("Measuring point") + "</div>" +
+      "<div class='ml-row'><span class='ml-you'></span>" + T("Your place") + "</div>";
   }
 
   /** Mark the chosen place; zoom to it only when asked (a new place, not a new date). */
