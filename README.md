@@ -46,6 +46,12 @@ python3 -m http.server 8765
 
 Then open http://localhost:8765.
 
+## Published site
+
+Live at https://abijitinu.github.io/kerala-flood-watch/ (GitHub Pages, from the `main` branch).
+
+`.github/workflows/fetch-dams.yml` runs `scripts/fetch_dams.py` on GitHub every hour (and on demand from the Actions tab). When the official tables change it commits `data/bulletin.js` and `data/history.js`, which redeploys the site. Run `git pull` before changing anything locally, so you start from the latest dam data.
+
 ## Data sources
 
 | Data | Source | Status |
