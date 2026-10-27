@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Runs scripts/fetch_dams.py every hour (and once at login) to refresh data/bulletin.js.
+  Installed copy: ~/Library/LaunchAgents/com.keralafloodwatch.fetchdams.plist
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.keralafloodwatch.fetchdams</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/python3</string>
+    <string>/Users/abijitagaman/Documents/Claude/C_Code/Dam/scripts/fetch_dams.py</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/abijitagaman/Documents/Claude/C_Code/Dam</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/bin:/bin</string>
+  </dict>
+  <key>StartInterval</key>
+  <integer>3600</integer>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/Users/abijitagaman/Documents/Claude/C_Code/Dam/logs/fetch_dams.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/abijitagaman/Documents/Claude/C_Code/Dam/logs/fetch_dams.log</string>
+</dict>
+</plist>

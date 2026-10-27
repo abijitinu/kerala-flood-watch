@@ -1,0 +1,33 @@
+# Hourly: fetch the official KSEB / Irrigation dam tables from KSDMA and commit
+# data/bulletin.js and data/history.js when they change. The commit redeploys GitHub Pages.
+name: Fetch dam data
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-dams
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pdftotext
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+      - name: Fetch dam tables
+        run: python3 scripts/fetch_dams.py
+      - name: Commit if changed
+        run: |
+          git config user.name "dam-data-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/bulletin.js data/history.js
+          if git diff --cached --quiet; then echo "No change"; exit 0; fi
+          git commit -m "Update dam data $(TZ=Asia/Kolkata date '+%Y-%m-%d %H:%M IST')"
+          git push
