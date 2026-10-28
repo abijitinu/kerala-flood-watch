@@ -95,6 +95,11 @@
     "Run by Tamil Nadu. No official daily figure for the water sent to Tamil Nadu": "തമിഴ്നാടിന്റെ നിയന്ത്രണത്തിൽ. തമിഴ്നാട്ടിലേക്ക് ദിവസവും എത്ര വെള്ളം കൊണ്ടുപോകുന്നു എന്നതിന് ഔദ്യോഗിക കണക്ക് ലഭ്യമല്ല",
     "Water level {level} ft, permitted up to {max} ft. Same day last year: {ly} ft.": "ജലനിരപ്പ് {level} ft, അനുവദനീയമായ പരമാവധി {max} ft. കഴിഞ്ഞ വർഷം ഇതേ ദിവസം: {ly} ft.",
 
+    "We count visits anonymously to improve this site. We never record where you are.": "സൈറ്റ് മെച്ചപ്പെടുത്താൻ ഞങ്ങൾ സന്ദർശനങ്ങൾ പേരില്ലാതെ എണ്ണുന്നു. നിങ്ങൾ എവിടെയാണെന്ന് ഒരിക്കലും രേഖപ്പെടുത്തുന്നില്ല.",
+
+    "If you allow it, we count visits with Google Analytics to see which parts of the site help people. We never record your position; places are counted by district only. If you tap \"No thanks\", no analytics cookies are set.":
+      "നിങ്ങൾ അനുവദിച്ചാൽ, സൈറ്റിന്റെ ഏതൊക്കെ ഭാഗങ്ങൾ ആളുകൾക്ക് ഉപകാരപ്പെടുന്നു എന്നറിയാൻ Google Analytics ഉപയോഗിച്ച് സന്ദർശനങ്ങൾ എണ്ണുന്നു. നിങ്ങളുടെ സ്ഥാനം ഒരിക്കലും രേഖപ്പെടുത്തുന്നില്ല; ജില്ല മാത്രമാണ് കണക്കാക്കുന്നത്. \"No thanks\" അമർത്തിയാൽ analytics cookies ഉപയോഗിക്കില്ല.",
+
     /* ---------- Status words ---------- */
     "Not sure": "വ്യക്തമല്ല",
     "We couldn't get a reading for this date. Please follow official news.": "ഈ തീയതിയിലെ വിവരം ലഭിച്ചില്ല. ഔദ്യോഗിക വാർത്തകൾ ശ്രദ്ധിക്കുക.",

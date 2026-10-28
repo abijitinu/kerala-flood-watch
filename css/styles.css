@@ -1075,3 +1075,12 @@ body.is-dash .search { flex: 1 1 260px; min-width: 0; }
 .ws-main > div { min-width: 0; }
 .ws-word { overflow-wrap: anywhere; }
 @media (max-width: 360px) { .ws-main .meter { width: 84px; } .ws-main { gap: 10px; } }
+
+/* Analytics consent: a small bar at the bottom that never blocks the page. */
+.consent { position: fixed; left: 0; right: 0; bottom: 0; z-index: 2000; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px;
+  padding: 12px max(16px, env(safe-area-inset-left, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-right, 0px));
+  background: var(--text); color: var(--bg); font-size: 13.5px; }
+.consent p { margin: 0; flex: 1 1 260px; }
+.consent-actions { display: flex; gap: 8px; }
+.consent button { font: inherit; font-weight: 600; padding: 7px 14px; border-radius: 999px; border: 1px solid currentColor; background: none; color: inherit; cursor: pointer; }
+.consent button.on { background: var(--bg); color: var(--text); border-color: var(--bg); }

@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Malayalam:wght@400;600;700&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
-  <link rel="stylesheet" href="css/styles.css?v=73">
+  <link rel="stylesheet" href="css/styles.css?v=74">
 </head>
 <body class="is-home">
   <header class="hero">
@@ -120,6 +120,8 @@
           </ul>
           <p class="small" data-i18n>District Collectors announce holidays, evacuations and dam releases on their district websites:</p>
           <div class="collector-links" id="collectorLinks"></div>
+          <h4 class="sub-h">Privacy</h4>
+          <p class="small" data-i18n>If you allow it, we count visits with Google Analytics to see which parts of the site help people. We never record your position; places are counted by district only. If you tap "No thanks", no analytics cookies are set.</p>
         </div>
         <div class="guide-col">
           <h3 data-i18n>Keep these in one bag</h3>
@@ -164,27 +166,28 @@
     </footer>
   </main>
 
-  <script src="data/rivers.js?v=73"></script>
-  <script src="data/dams.js?v=73"></script>
-  <script src="data/sites.js?v=73"></script>
-  <script src="data/places.js?v=73"></script>
+  <script src="data/rivers.js?v=74"></script>
+  <script src="data/dams.js?v=74"></script>
+  <script src="data/sites.js?v=74"></script>
+  <script src="data/places.js?v=74"></script>
   <script>
     // Always load the newest published dam data and archive, not a cached copy.
     document.write('<script src="' + LIVE_DATA + 'bulletin.js?t=' + Date.now() + '"><\/script>');
     document.write('<script src="' + LIVE_DATA + 'history.js?t=' + Date.now() + '"><\/script>');
   </script>
-  <script src="data/districts.js?v=73"></script>
+  <script src="data/districts.js?v=74"></script>
   <script>
     document.write('<script src="' + LIVE_DATA + 'alerts.js?t=' + Date.now() + '"><\/script>');
   </script>
-  <script src="js/i18n.js?v=73"></script>
-  <script src="js/status.js?v=73"></script>
-  <script src="js/live.js?v=73"></script>
-  <script src="js/illustrations.js?v=73"></script>
+  <script src="js/i18n.js?v=74"></script>
+  <script src="js/analytics.js?v=75"></script>
+  <script src="js/status.js?v=74"></script>
+  <script src="js/live.js?v=74"></script>
+  <script src="js/illustrations.js?v=74"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
-  <script src="data/water.js?v=73"></script>
-  <script src="js/network.js?v=73"></script>
-  <script src="js/map.js?v=73"></script>
-  <script src="js/app.js?v=73"></script>
+  <script src="data/water.js?v=74"></script>
+  <script src="js/network.js?v=74"></script>
+  <script src="js/map.js?v=74"></script>
+  <script src="js/app.js?v=74"></script>
 </body>
 </html>

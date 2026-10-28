@@ -2,6 +2,7 @@
   const B = window.BULLETIN, Live = window.Live, I = window.Illus, Net = window.RiverNet;
   // Every sentence shown is written in English and passed through T (js/i18n.js) for Malayalam.
   const T = window.I18N.t, loc = () => window.I18N.locale;
+  const track = (name, params) => window.Analytics && window.Analytics.track(name, params);
   const $ = s => document.querySelector(s);
   const $$ = s => [...document.querySelectorAll(s)];
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -323,6 +324,7 @@
     const [, rain, elev, district] = await Promise.allSettled([flows, Live.rainfall(place.lat, place.lon), Live.elevation(place.lat, place.lon), districtOf(place)]);
     if (S.place !== place) return; // a different place was chosen meanwhile
     if (district.status === "fulfilled") S.district = district.value;
+    track("place_view", { district: S.district, language: window.I18N.lang });
     S.rain = rain.status === "fulfilled" ? rain.value : null;
     S.elev = elev.status === "fulfilled" ? elev.value : null;
     renderAll();
@@ -330,6 +332,7 @@
 
   function selectDate(date) {
     if (!DATES.includes(date) || !S.place) return;
+    if (date !== S.date) track("date_change", { tense: tenseOf(date) });
     S.date = date;
     writeHash();
     renderAll();
@@ -651,7 +654,12 @@
     el.textContent = text;
   }
   $("#riskForm").addEventListener("submit", e => { e.preventDefault(); searchText($("#riskInput").value.trim()); });
-  $("#quickPlaces").addEventListener("click", e => { const b = e.target.closest("[data-lat]"); if (b) choose({ name: b.dataset.name, lat: +b.dataset.lat, lon: +b.dataset.lon }); });
+  $("#quickPlaces").addEventListener("click", e => {
+    const b = e.target.closest("[data-lat]");
+    if (!b) return;
+    track("alert_chip", { level: (b.className.match(/lvl-(\w+)/) || [])[1] });
+    choose({ name: b.dataset.name, lat: +b.dataset.lat, lon: +b.dataset.lon });
+  });
   $("#geoBtn").addEventListener("click", () => {
     if (!navigator.geolocation) return alertMsg(T("Your phone or browser can't share location. Please type your town name."));
     navigator.geolocation.getCurrentPosition(
@@ -678,6 +686,7 @@
 
   $("#shareBtn").addEventListener("click", async () => {
     const url = location.href;
+    track("share", { district: S.district });
     try {
       if (navigator.share) await navigator.share({ title: "Kerala Flood Watch: " + S.place.name, url });
       else { await navigator.clipboard.writeText(url); $("#shareBtn").textContent = T("Link copied"); setTimeout(() => { $("#shareBtn").textContent = T("Share"); }, 1800); }
@@ -698,6 +707,7 @@
     const btn = $("#refreshBtn");
     if (btn.disabled || !S.place) return;
     btn.disabled = true; btn.classList.add("spinning");
+    track("refresh", { district: S.district });
     $("#dataTime").textContent = T("Refreshing…");
     Live.clearCache();
     await Promise.all([reloadScript(window.LIVE_DATA + "bulletin.js"), reloadScript(window.LIVE_DATA + "history.js"), reloadScript(window.LIVE_DATA + "alerts.js")]);
@@ -711,7 +721,8 @@
   });
 
   // Switching language redraws the open dashboard in place (same place, same date).
-  window.I18N.onChange(() => {
+  window.I18N.onChange(lang => {
+    track("language", { language: lang });
     renderSuggestions();
     $$("#collectorLinks [data-district]").forEach(a => { a.textContent = distName(a.dataset.district); });
     if (S.place && !$("#dash").hidden && S.sites.some(id => modelById[id])) renderAll();
