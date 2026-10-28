@@ -4,12 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kerala Flood Watch</title>
+  <script>
+    // The site's address is kerala-flood-watch.web.app; the old GitHub address forwards there.
+    if (location.hostname === "abijitinu.github.io") location.replace("https://kerala-flood-watch.web.app/" + location.hash);
+    // Dam tables and official alerts are refreshed by GitHub Actions and published on GitHub
+    // Pages; the Firebase site reads those live copies so they never wait for a redeploy.
+    window.LIVE_DATA = /(\.web\.app|\.firebaseapp\.com)$/.test(location.hostname) ? "https://abijitinu.github.io/kerala-flood-watch/data/" : "data/";
+  </script>
   <meta name="description" content="Is my area safe from floods? Choose any town or village in Kerala to see its river, the dams upstream and downstream, and the forecast. In English and Malayalam.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Malayalam:wght@400;600;700&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
-  <link rel="stylesheet" href="css/styles.css?v=72">
+  <link rel="stylesheet" href="css/styles.css?v=73">
 </head>
 <body class="is-home">
   <header class="hero">
@@ -157,27 +164,27 @@
     </footer>
   </main>
 
-  <script src="data/rivers.js?v=72"></script>
-  <script src="data/dams.js?v=72"></script>
-  <script src="data/sites.js?v=72"></script>
-  <script src="data/places.js?v=72"></script>
+  <script src="data/rivers.js?v=73"></script>
+  <script src="data/dams.js?v=73"></script>
+  <script src="data/sites.js?v=73"></script>
+  <script src="data/places.js?v=73"></script>
   <script>
     // Always load the newest published dam data and archive, not a cached copy.
-    document.write('<script src="data/bulletin.js?t=' + Date.now() + '"><\/script>');
-    document.write('<script src="data/history.js?t=' + Date.now() + '"><\/script>');
+    document.write('<script src="' + LIVE_DATA + 'bulletin.js?t=' + Date.now() + '"><\/script>');
+    document.write('<script src="' + LIVE_DATA + 'history.js?t=' + Date.now() + '"><\/script>');
   </script>
-  <script src="data/districts.js?v=72"></script>
+  <script src="data/districts.js?v=73"></script>
   <script>
-    document.write('<script src="data/alerts.js?t=' + Date.now() + '"><\/script>');
+    document.write('<script src="' + LIVE_DATA + 'alerts.js?t=' + Date.now() + '"><\/script>');
   </script>
-  <script src="js/i18n.js?v=72"></script>
-  <script src="js/status.js?v=72"></script>
-  <script src="js/live.js?v=72"></script>
-  <script src="js/illustrations.js?v=72"></script>
+  <script src="js/i18n.js?v=73"></script>
+  <script src="js/status.js?v=73"></script>
+  <script src="js/live.js?v=73"></script>
+  <script src="js/illustrations.js?v=73"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
-  <script src="data/water.js?v=72"></script>
-  <script src="js/network.js?v=72"></script>
-  <script src="js/map.js?v=72"></script>
-  <script src="js/app.js?v=72"></script>
+  <script src="data/water.js?v=73"></script>
+  <script src="js/network.js?v=73"></script>
+  <script src="js/map.js?v=73"></script>
+  <script src="js/app.js?v=73"></script>
 </body>
 </html>

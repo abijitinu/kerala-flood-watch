@@ -54,9 +54,17 @@ Then open http://localhost:8765.
 
 ## Published site
 
-Live at https://abijitinu.github.io/kerala-flood-watch/ (GitHub Pages, from the `main` branch).
+Live at **https://kerala-flood-watch.web.app** (Firebase Hosting, project `kerala-flood-watch`). The old address, https://abijitinu.github.io/kerala-flood-watch/, forwards there.
 
-`.github/workflows/fetch-dams.yml` runs `scripts/fetch_dams.py` on GitHub every hour (and on demand from the Actions tab). When the official tables change it commits `data/bulletin.js` and `data/history.js`, which redeploys the site. Run `git pull` before changing anything locally, so you start from the latest dam data.
+Two GitHub Actions keep the data current: `.github/workflows/fetch-dams.yml` runs `scripts/fetch_dams.py` every hour, and `.github/workflows/fetch-alerts.yml` runs `scripts/fetch_alerts.py` every 15 minutes. Each commits `data/bulletin.js`, `data/history.js` or `data/alerts.js` when they change, and GitHub Pages publishes them. The Firebase site reads those three files from GitHub Pages (`window.LIVE_DATA` in `index.html`), so new data appears without redeploying Firebase. Everything else is served by Firebase.
+
+After changing code, redeploy Firebase:
+
+```bash
+firebase deploy --only hosting --project kerala-flood-watch
+```
+
+Run `git pull` first, so you start from the latest data.
 
 ## Data sources
 

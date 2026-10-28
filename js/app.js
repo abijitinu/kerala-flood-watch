@@ -700,7 +700,7 @@
     btn.disabled = true; btn.classList.add("spinning");
     $("#dataTime").textContent = T("Refreshing…");
     Live.clearCache();
-    await Promise.all([reloadScript("data/bulletin.js"), reloadScript("data/history.js"), reloadScript("data/alerts.js")]);
+    await Promise.all([reloadScript(window.LIVE_DATA + "bulletin.js"), reloadScript(window.LIVE_DATA + "history.js"), reloadScript(window.LIVE_DATA + "alerts.js")]);
     window.applyLiveBulletin(window.LIVE_BULLETIN);
     renderSuggestions();
     flows = loadFlows(S.sites, S.basin);
