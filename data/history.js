@@ -2663,5 +2663,28 @@ window.DAM_HISTORY = {
     "asOf": "2026-10-30T11:00:00+05:30"
    }
   }
+ },
+ "2026-10-29": {
+  "asOf": "2026-10-29",
+  "dams": {
+   "mullaperiyar": {
+    "level": 121.78,
+    "unit": "ft",
+    "levelM": 37.12,
+    "frl": 152.0,
+    "permitted": 142.0,
+    "lastYear": 137.89,
+    "blue": null,
+    "orange": null,
+    "red": null,
+    "storagePct": null,
+    "storageMcm": 59.0,
+    "capacityMcm": 273.51,
+    "release": null,
+    "gates": null,
+    "alert": "none",
+    "asOf": "2026-10-29"
+   }
+  }
  }
 };
