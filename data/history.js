@@ -6093,6 +6093,24 @@ window.DAM_HISTORY = {
     "gates": "2/16 shutters opened @50cm each, 1/16 shutter opened @20cm.",
     "alert": "none",
     "asOf": "2026-11-04T11:00:00+05:30"
+   },
+   "mullaperiyar": {
+    "level": 122.01,
+    "unit": "ft",
+    "levelM": 37.19,
+    "frl": 152.0,
+    "permitted": 142.0,
+    "lastYear": 137.11,
+    "blue": null,
+    "orange": null,
+    "red": null,
+    "storagePct": null,
+    "storageMcm": 59.91,
+    "capacityMcm": 273.51,
+    "release": null,
+    "gates": null,
+    "alert": "none",
+    "asOf": "2026-11-04"
    }
   }
  },
