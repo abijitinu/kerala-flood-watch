@@ -20436,6 +20436,24 @@ window.DAM_HISTORY = {
     "gates": "No spillway release",
     "alert": "none",
     "asOf": "2026-11-25T11:00:00+05:30"
+   },
+   "mullaperiyar": {
+    "level": 118.8,
+    "unit": "ft",
+    "levelM": 36.21,
+    "frl": 152.0,
+    "permitted": 142.0,
+    "lastYear": 139.8,
+    "blue": null,
+    "orange": null,
+    "red": null,
+    "storagePct": null,
+    "storageMcm": 42.49,
+    "capacityMcm": 273.51,
+    "release": null,
+    "gates": null,
+    "alert": "none",
+    "asOf": "2026-11-25"
    }
   }
  }
